@@ -10,7 +10,7 @@ export const signup= async(req,res)=>{
        }
 
        if(password !== confirmPassword){
-        return res.status(404).json({error:"Password's don't match"})
+        return res.status(400).json({error:"Password's don't match"})
        }
 
        const user=await User.findOne({username});
@@ -27,7 +27,7 @@ export const signup= async(req,res)=>{
        const newUser=new User({
          fullName,
          username,
-         password,
+         password:hashedPassword,
          gender,
          profilepic:gender === "female" ? girlProfilePic : boyProfilePic
        })
