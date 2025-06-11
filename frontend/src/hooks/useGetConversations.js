@@ -2,6 +2,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { useEffect } from "react";
 
+const BASE_URL = "https://messenger-k0ny.onrender.com/api" || "http://localhost:5000/api";
 const useGetConversations = () =>{
     const[loading,setLoading]=useState(false);
     const[conversations,setConversations]=useState([]);
@@ -10,7 +11,7 @@ const useGetConversations = () =>{
         const getConversations= async() => {
             setLoading(true);
             try{
-                const res= await fetch ('/api/users');
+                const res= await fetch ('/users');
                 const data= await res.json();
                 if(data.error){
                     throw new Error(data.error);
