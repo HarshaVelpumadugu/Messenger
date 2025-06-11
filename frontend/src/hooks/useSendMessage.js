@@ -3,35 +3,45 @@ import useConversation from "../zustand/useConversation";
 import toast from 'react-hot-toast';
 
 const BASE_URL = "https://messenger-k0ny.onrender.com/api";
+
 const useSendMessage = () => {
-    const [loading,setLoading]=useState(false);
-    const {messages,setMessages,selectedConversation}= useConversation();
-    const sendMessage = async (message) =>{
+    const [loading, setLoading] = useState(false);
+    const { messages, setMessages, selectedConversation } = useConversation();
+
+    const sendMessage = async (message) => {
+        if (!selectedConversation) return;
+
         setLoading(true);
-        try{
-            const res=await fetch(`/messages/send/${selectedConversation._id}`,{
-                method:'POST',
-                headers:{"Content-Type":"application/json"},
-                body:JSON.stringify({message})
-            })
+        try {
+            const res = await fetch(`${BASE_URL}/messages/send/${selectedConversation._id}`, {
+                method: 'POST',
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
+                body: JSON.stringify({ message })
+            });
+
+            const text = await res.text(); // fallback if not JSON
+
             if (!res.ok) {
-                const errorData = await res.json();
-                throw new Error(errorData.error || 'An unexpected error occurred');
-                toast.error(errorData.error);
+                throw new Error(text || "Message send failed");
             }
-            const data=await res.json();
-            if(data.error){
-                throw new Error(data.error);
+
+            let data;
+            try {
+                data = JSON.parse(text);
+            } catch (err) {
+                throw new Error("Invalid response from server");
             }
-            setMessages([...messages,data]);
-        }
-        catch(err){
+
+            setMessages([...messages, data]);
+        } catch (err) {
             toast.error(err.message);
-        }
-        finally{
+        } finally {
             setLoading(false);
         }
-    }
-    return {sendMessage,loading};
-}
+    };
+
+    return { sendMessage, loading };
+};
+
 export default useSendMessage;
