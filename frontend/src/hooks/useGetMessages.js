@@ -2,6 +2,7 @@ import {useState,useEffect} from 'react'
 import useConversation from '../zustand/useConversation';
 import toast from 'react-hot-toast';
 
+const BASE_URL = "https://messenger-k0ny.onrender.com/api" || "http://localhost:5000/api";
 export const useGetMessages = () => {
   const [loading,setLoading]=useState(false);
   const {messages,setMessages,selectedConversation}=useConversation();
@@ -9,7 +10,7 @@ export const useGetMessages = () => {
     const getMessages=async()=>{
         setLoading(true);
         try{
-            const res= await fetch(`/api/messages/${selectedConversation._id}`);
+            const res= await fetch(`/messages/${selectedConversation._id}`);
             if (!res.ok) {
                 const errorData = await res.json();
                 throw new Error(errorData.error || 'An unexpected error occurred');
