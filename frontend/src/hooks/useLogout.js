@@ -1,35 +1,43 @@
-import { useState} from "react"; 
+import { useState } from "react";
 import { useAuthContext } from "../context/AuthContext";
 import toast from "react-hot-toast";
 
+// ✅ Your backend URL
 const BASE_URL = "https://messenger-k0ny.onrender.com/api";
+
 const useLogout = () => {
-  const[loading,setLoading] =useState(false);
-  const{setAuthUser}= useAuthContext();
-  const logout = async() =>{
+  const [loading, setLoading] = useState(false);
+  const { setAuthUser } = useAuthContext();
+
+  const logout = async () => {
     setLoading(true);
-    try{
-        const res=await fetch("/auth/logout",{
-            method:"POST",
-            headers:{"Content-Type":"application/json"}
-       });
-       if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(errorData.error || 'An unexpected error occurred');
-        toast.error(errorData.error);
-       }
-        const data = await res.json();
-        toast.success('Logged out successfully!');
-        localStorage.removeItem("chat-user");
-        setAuthUser(null);
+    try {
+      const res = await fetch(`${BASE_URL}/auth/logout`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include", // ✅ If you're using cookies for auth
+      });
+
+      // ✅ Use text fallback to avoid JSON parse errors
+      const text = await res.text();
+
+      if (!res.ok) {
+        throw new Error(text || "Logout failed");
+      }
+
+      toast.success("Logged out successfully!");
+      localStorage.removeItem("chat-user");
+      setAuthUser(null);
+    } catch (err) {
+      toast.error(err.message || "Logout error");
+    } finally {
+      setLoading(false);
     }
-    catch(err){
-        toast.error(err.message);
-    }
-    finally{
-        setLoading(false);
-    }
-  }
-  return {loading,logout};
-}
+  };
+
+  return { loading, logout };
+};
+
 export default useLogout;
