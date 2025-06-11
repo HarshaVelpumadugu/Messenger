@@ -2,7 +2,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { useEffect } from "react";
 
-const BASE_URL = "https://messenger-k0ny.onrender.com/api" || "http://localhost:5000/api";
+const BASE_URL = "https://messenger-k0ny.onrender.com/api";
 const useGetConversations = () =>{
     const[loading,setLoading]=useState(false);
     const[conversations,setConversations]=useState([]);
