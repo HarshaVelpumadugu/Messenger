@@ -12,9 +12,14 @@ export const getReceiverSocketId = (receiverId) => {
   return userSocketMap[receiverId];
 };
 
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://messenger-frontend-kazz.onrender.com",
+];
+
 const io = new Server(server, {
   cors: {
-    origin: ["https://messenger-frontend-kazz.onrender.com"], // ✅ your frontend URL
+    origin: allowedOrigins,
     methods: ["GET", "POST"],
     credentials: true
   }
