@@ -3,6 +3,8 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { useAuthContext } from "../context/AuthContext";
 
+const BASE_URL = "https://messenger-k0ny.onrender.com/api" || "http://localhost:5000/api";
+
 const useLogin= ()=>{
     const[loading,setLoading]=useState(false);
     const{setAuthUser}=useAuthContext();
@@ -13,7 +15,7 @@ const useLogin= ()=>{
         }
         setLoading(true);
         try{
-            const res=await fetch("/api/auth/login",{
+            const res=await fetch("/auth/login",{
                 method:"POST",
                 headers:{"Content-Type":"application/json"},
                 body: JSON.stringify({username,password})
