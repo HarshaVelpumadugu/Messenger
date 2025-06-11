@@ -9,7 +9,7 @@ export default defineConfig({
     proxy:{
       "/api":{
         //target:'http://localhost:5000',
-        target:'https://messenger-k0ny.onrender.com'
+        target:'https://messenger-k0ny.onrender.com',
         changeOrigin: true, 
       },
     },
