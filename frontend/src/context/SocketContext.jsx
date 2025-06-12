@@ -18,7 +18,7 @@ export const SocketContextProvider = ({ children }) => {
   useEffect(() => {
     if (authUser?._id) {
       // Connect socket with backend URL
-      const newSocket = io("https://messenger-k0ny.onrender.com", {
+      const newSocket = io("https://messenger-j1ha.onrender.com", {
         query: { userId: authUser._id },
         transports: ["websocket"], // Ensure WebSocket is used
         withCredentials: true,     // Helps with cookies if needed
