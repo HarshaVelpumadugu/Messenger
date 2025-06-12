@@ -2,7 +2,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { useAuthContext } from "../context/AuthContext";
 
-const BASE_URL = "https://messenger-k0ny.onrender.com/api";
+const BASE_URL = "https://messenger-j1ha.onrender.com/api";
 
 const useLogin = () => {
   const [loading, setLoading] = useState(false);
