@@ -1,45 +1,34 @@
-import { useState, useEffect } from "react";
-import toast from "react-hot-toast";
-
 const BASE_URL = "https://messenger-j1ha.onrender.com/api";
 
-const useGetConversations = () => {
-  const [loading, setLoading] = useState(false);
-  const [conversations, setConversations] = useState([]);
+import { useState } from "react";
+import toast from "react-hot-toast";
+import { useEffect } from "react";
 
-  useEffect(() => {
-    const getConversations = async () => {
-      setLoading(true);
-      try {
-        const res = await fetch(`${BASE_URL}/users`);
-        const contentType = res.headers.get("content-type");
+const useGetConversations = () =>{
+    const[loading,setLoading]=useState(false);
+    const[conversations,setConversations]=useState([]);
 
-        if (!res.ok) {
-          throw new Error("Server responded with an error");
+    useEffect(()=> {
+        const getConversations= async() => {
+            setLoading(true);
+            try{
+                const res= await fetch (`${BASE_URL}/users`);
+                const data= await res.json();
+                if(data.error){
+                    throw new Error(data.error);
+                }
+                setConversations(data);
+            }
+            catch(err){
+                toast.error(err.message);
+            }
+            finally{
+                setLoading(false);
+            }
         }
-
-        if (!contentType || !contentType.includes("application/json")) {
-          throw new Error("Expected JSON but got HTML or something else");
-        }
-
-        const data = await res.json();
-
-        if (data.error) {
-          throw new Error(data.error);
-        }
-
-        setConversations(data);
-      } catch (err) {
-        toast.error(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    getConversations();
-  }, []);
-
-  return { loading, conversations };
+        getConversations();
+    },[]);
+    return {loading,conversations};
 };
 
 export default useGetConversations;
