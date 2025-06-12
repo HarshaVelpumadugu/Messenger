@@ -3,7 +3,7 @@ import { useAuthContext } from "../context/AuthContext";
 import toast from "react-hot-toast";
 
 // ✅ Your backend URL
-const BASE_URL = "https://messenger-j1ha.onrender.com/api";
+const BASE_URL = "https://messenger-backend-1-wfgx.onrender.com/api";
 
 const useLogout = () => {
   const [loading, setLoading] = useState(false);
