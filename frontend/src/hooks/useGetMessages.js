@@ -2,7 +2,7 @@ import {useState,useEffect} from 'react'
 import useConversation from '../zustand/useConversation';
 import toast from 'react-hot-toast';
 
-const BASE_URL = "https://messenger-k0ny.onrender.com/api";
+const BASE_URL = "https://messenger-j1ha.onrender.com/api";
 export const useGetMessages = () => {
   const [loading,setLoading]=useState(false);
   const {messages,setMessages,selectedConversation}=useConversation();
